@@ -1,5 +1,7 @@
 package com.example.new_weather_app.di
 
+import android.content.Context
+import com.example.new_weather_app.WeatherApplication
 import com.example.new_weather_app.data.api.WeatherApi
 import dagger.Module
 import dagger.Provides

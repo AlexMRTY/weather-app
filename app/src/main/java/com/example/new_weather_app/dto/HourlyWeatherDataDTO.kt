@@ -3,7 +3,7 @@ package com.example.new_weather_app.dto
 import com.google.gson.annotations.SerializedName
 
 
-data class WeatherDataDTO(
+data class HourlyWeatherDataDTO(
     val time: List<String>,
 
     @SerializedName("temperature_2m")
