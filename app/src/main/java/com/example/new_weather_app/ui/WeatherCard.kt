@@ -18,18 +18,17 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.new_weather_app.model.WeatherType
+import java.time.LocalDateTime
 
 
 @Composable
 fun WeatherCard(
     temperature: Double,
-    weatherCode: Int,
-    humidity: Int,
+    weatherType: WeatherType,
+    humidity: Double,
     windSpeed: Double,
-    time: String
+    time: LocalDateTime
 ) {
-    val weatherType = WeatherType.fromWMO(weatherCode)
-
     Card(
         modifier = Modifier
             .padding(16.dp)
@@ -76,14 +75,14 @@ fun WeatherCard(
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun WeatherCardPreview() {
-    WeatherCard(
-        temperature = 25.0,
-        weatherCode = 0, // MainlyClear
-        humidity = 60,
-        windSpeed = 5.0,
-        time = "14:30"
-    )
-}
+//@Preview(showBackground = true)
+//@Composable
+//fun WeatherCardPreview() {
+//    WeatherCard(
+//        temperature = 25.0,
+//        weatherCode = 0, // MainlyClear
+//        humidity = 60,
+//        windSpeed = 5.0,
+//        time = "14:30"
+//    )
+//}

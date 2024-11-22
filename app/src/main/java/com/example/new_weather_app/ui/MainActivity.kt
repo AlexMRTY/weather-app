@@ -21,7 +21,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        vm.getWeatherData(37.7749, -122.4194)
+        vm.getWeatherData(59.380743,16.522288)
 
         enableEdgeToEdge()
         setContent {

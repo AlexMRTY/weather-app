@@ -16,6 +16,10 @@ data class HourlyWeather(
 
 @Composable
 fun WeatherCardLazyRow(hourlyWeatherList: List<HourlyWeather>) {
+    if (hourlyWeatherList.isEmpty()) {
+        return
+    }
+
     LazyRow(
         modifier = Modifier.padding(16.dp)
     ) {
