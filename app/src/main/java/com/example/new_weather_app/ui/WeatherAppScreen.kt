@@ -15,6 +15,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material3.Button
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SegmentedButtonDefaults.Icon
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
@@ -25,6 +27,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.new_weather_app.vm.WeatherState
 import androidx.compose.material3.TextFieldDefaults
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -38,13 +41,25 @@ import com.example.new_weather_app.ui.theme.CoordinateInput
 import com.example.new_weather_app.vm.WeatherVm
 
 
+
 @Composable
 fun WeatherAppScreen(
     weatherVm: WeatherVm,
     modifier: Modifier = Modifier
 ) {
+    val snackbarHostState = remember { SnackbarHostState() }
+
+    LaunchedEffect(weatherVm.weatherState.error) {
+        if (weatherVm.isOnline.not()) {
+            weatherVm.weatherState.error?.let { error ->
+                snackbarHostState.showSnackbar(error)
+            }
+            weatherVm.resetIsOnline()
+        }
+    }
 
     Scaffold(
+        snackbarHost = { SnackbarHost(snackbarHostState) },
         bottomBar = {
             CoordinateInput(
                 onSearch = { lat, long ->
