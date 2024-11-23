@@ -6,10 +6,10 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.Text
@@ -17,50 +17,49 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.new_weather_app.model.WeatherType
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 @Composable
-fun WeatherCardRow(
+fun HourCard(
     temperature: Double,
-    weatherCode: Int,
-    time: String,
-    onWeatherSelected: (HourlyWeather) -> Unit
+    weatherType: WeatherType,
+    time: LocalDateTime,
 ) {
-    val weatherType = WeatherType.fromWMO(weatherCode)
 
     Card(
         modifier = Modifier
-            .padding(16.dp)
-            .fillMaxWidth(),
+            .padding(8.dp)
+            .wrapContentSize(),
         shape = RoundedCornerShape(8.dp),
     ) {
         Row(
-            modifier = Modifier.padding(16.dp),
-            horizontalArrangement = Arrangement.SpaceBetween
+            modifier = Modifier.padding(8.dp),
         ) {
             Column (
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
-                    text = "${temperature}°C",
-                    fontSize = 24.sp
+                    text = "${temperature}°",
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.Medium
                 )
                 Spacer(modifier = Modifier.height(8.dp))
                 Image(
                     painter = painterResource(id = weatherType.iconRes),
                     contentDescription = weatherType.weatherDesc,
-                    modifier = Modifier.size(48.dp)
+                    modifier = Modifier.size(30.dp)
                 )
                 Spacer(modifier = Modifier.height(8.dp))
                 Text(
-                    text = time,
+                    text = time.format(DateTimeFormatter.ofPattern("HH:mm")),
                     fontSize = 16.sp,
-                    modifier = Modifier.clickable {
-                        onWeatherSelected(HourlyWeather(temperature, weatherCode, time))
-                    }
+                    fontWeight = FontWeight.Medium
                 )
             }
         }
@@ -70,10 +69,9 @@ fun WeatherCardRow(
 @Preview(showBackground = true)
 @Composable
 fun WeatherCardRowPreview() {
-    WeatherCardRow(
+    HourCard(
         temperature = 25.0,
-        weatherCode = 0, // MainlyClear
-        time = "14:30",
-        onWeatherSelected = {}
+        weatherType = WeatherType.fromWMO(0), // MainlyClear
+        time = LocalDateTime.now(),
     )
 }

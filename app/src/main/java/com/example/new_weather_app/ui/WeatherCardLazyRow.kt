@@ -7,38 +7,23 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.foundation.layout.padding
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.example.new_weather_app.model.HourlyWeather
+import java.time.LocalDate
 
-data class HourlyWeather(
-    val temperature: Double,
-    val weatherCode: Int,
-    val time: String
-)
 
 @Composable
-fun WeatherCardLazyRow(hourlyWeatherList: List<HourlyWeather>) {
+fun HourlyWeatherRow(hourlyWeatherList: Map<Int, List<HourlyWeather>>) {
+    val currentDayHourlyWeather = hourlyWeatherList[LocalDate.now().dayOfMonth] ?: emptyList()
     LazyRow(
         modifier = Modifier.padding(16.dp)
     ) {
-        items(hourlyWeatherList) { hourlyWeather ->
-            WeatherCardRow(
-                temperature = hourlyWeather.temperature,
-                weatherCode = hourlyWeather.weatherCode,
+        items(currentDayHourlyWeather) { hourlyWeather ->
+            HourCard(
+                temperature = hourlyWeather.temperatureCelsius,
+                weatherType = hourlyWeather.weatherType,
                 time = hourlyWeather.time,
-                onWeatherSelected = { /* handle selection */ }
             )
         }
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun WeatherCardLazyRowPreview() {
-    val sampleData = List(24) { index ->
-        HourlyWeather(
-            temperature = 20.0 + index,
-            weatherCode = index % 100,
-            time = String.format("%02d:00", index)
-        )
-    }
-    WeatherCardLazyRow(hourlyWeatherList = sampleData)
-}
