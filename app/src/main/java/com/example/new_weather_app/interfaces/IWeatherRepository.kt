@@ -4,5 +4,5 @@ import com.example.new_weather_app.model.Weather
 import com.example.new_weather_app.util.Resource
 
 interface IWeatherRepository {
-    suspend fun getWeatherData(lat: Double, long: Double): Resource<Weather>
+    suspend fun getWeatherData(lat: Float, long: Float): Resource<Weather>
 }

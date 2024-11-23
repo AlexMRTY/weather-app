@@ -41,6 +41,7 @@ fun DayCard(
             .fillMaxWidth(),
         shape = RoundedCornerShape(8.dp),
     ) {
+
         Row(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically,
@@ -59,7 +60,7 @@ fun DayCard(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = "${minTempreture.toInt()}° - ${maxTempreture.toInt()}°",
+                    text = "${minTempreture.toInt()}° | ${maxTempreture.toInt()}°",
                     fontSize = 20.sp,
                     fontWeight = FontWeight.Medium
                 )

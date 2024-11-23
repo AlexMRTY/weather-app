@@ -21,14 +21,14 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        vm.getWeatherData(37.7749, -122.4194)
+//        vm.getWeatherData(37.7749, -122.4194)
 
         enableEdgeToEdge()
         setContent {
             NewweatherappTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     WeatherAppScreen(
-                        weatherState = vm.weatherState,
+                        weatherVm = vm,
                         modifier = Modifier.padding(innerPadding)
                     )
                 }

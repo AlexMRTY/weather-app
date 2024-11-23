@@ -16,13 +16,10 @@ class WeatherVm @Inject constructor(
     private val weatherRepository: IWeatherRepository
 ) : ViewModel() {
 
-//    // Secondary constructor for testing purposes
-//    constructor() : this(weatherRepository = DummyWeatherRepository())
-
     var weatherState by mutableStateOf(WeatherState())
         private set
 
-    fun getWeatherData(lat: Double, long: Double) {
+    fun getWeatherData(lat: Float, long: Float) {
         viewModelScope.launch {
             weatherState = weatherState.copy(
                 isLoading = true,
