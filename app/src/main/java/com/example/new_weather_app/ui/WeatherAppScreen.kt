@@ -1,5 +1,6 @@
 package com.example.new_weather_app.ui
 
+import android.content.res.Configuration
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -39,6 +40,8 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.sp
 import com.example.new_weather_app.ui.theme.CoordinateInput
 import com.example.new_weather_app.vm.WeatherVm
+import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.tooling.preview.Devices
 
 
 
@@ -47,6 +50,8 @@ fun WeatherAppScreen(
     weatherVm: WeatherVm,
     modifier: Modifier = Modifier
 ) {
+    val configuration = LocalConfiguration.current
+    val isPortrait = configuration.orientation == Configuration.ORIENTATION_PORTRAIT
     val snackbarHostState = remember { SnackbarHostState() }
 
     LaunchedEffect(weatherVm.weatherState.error) {
@@ -68,25 +73,57 @@ fun WeatherAppScreen(
             )
         }
     ) { innerPadding ->
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(innerPadding)
-        ) {
-            weatherVm.weatherState.weather?.currentWeather?.let { currentWeather ->
-                WeatherCard(
-                    data = currentWeather
-                )
+        if (isPortrait) {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(innerPadding)
+            ) {
+                weatherVm.weatherState.weather?.currentWeather?.let { currentWeather ->
+                    WeatherCard(
+                        data = currentWeather
+                    )
+                }
+                weatherVm.weatherState.weather?.weatherHourlyByDay?.let { hourlyWeatherList ->
+                    HourlyWeatherRow(
+                        hourlyWeatherList = hourlyWeatherList
+                    )
+                }
+                weatherVm.weatherState.weather?.weatherDaily?.let { dailyWeatherList ->
+                    DailyWeather(
+                        dailyWeatherList = dailyWeatherList
+                    )
+                }
             }
-            weatherVm.weatherState.weather?.weatherHourlyByDay?.let { hourlyWeatherList ->
-                HourlyWeatherRow(
-                    hourlyWeatherList = hourlyWeatherList
-                )
-            }
-            weatherVm.weatherState.weather?.weatherDaily?.let { dailyWeatherList ->
-                DailyWeather(
-                    dailyWeatherList = dailyWeatherList
-                )
+        } else {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(innerPadding)
+            ) {
+                Column(
+                    modifier = Modifier.weight(1f)
+                ) {
+                    weatherVm.weatherState.weather?.currentWeather?.let { currentWeather ->
+                        WeatherCard(
+                            data = currentWeather
+                        )
+                    }
+                }
+                Column(
+                    modifier = Modifier.weight(1f)
+                ) {
+                    weatherVm.weatherState.weather?.weatherHourlyByDay?.let { hourlyWeatherList ->
+                        HourlyWeatherRow(
+                            hourlyWeatherList = hourlyWeatherList
+                        )
+                    }
+                    weatherVm.weatherState.weather?.weatherDaily?.let { dailyWeatherList ->
+                        DailyWeather(
+                            dailyWeatherList = dailyWeatherList
+                        )
+                    }
+                }
             }
         }
     }
